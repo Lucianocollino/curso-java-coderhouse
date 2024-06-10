@@ -1,63 +1,117 @@
-let nombre = prompt("ingrese su nombre")
-let mesa = prompt("ingrese numero de mesa")
+let nombre = prompt("Ingrese su nombre");
+let mesa = prompt("Ingrese número de mesa");
 
-console.log (nombre,mesa)
-alert(" mi nombre es "+nombre+", mesa numero "+mesa )
+const hamburguesas = [
+    {
+        numero: 1,
+        tipo: "Hamburguesa Simple",
+        Ingredientes: "1 medallón de carne 180gr, pan de papa, lechuga, tomate, queso",
+        precio: 6500
+    },
+    {
+        numero: 2,
+        tipo: "Hamburguesa Cheddar",
+        Ingredientes: "2 medallones de carne 180gr, pan de papa, queso cheddar, panceta, salsa especial",
+        precio: 6900
+    },
+    {
+        numero: 3,
+        tipo: "Hamburguesa de campo",
+        Ingredientes: "2 medallones de carne 180gr, pan de papa, queso provoleta, chimichurri, lechuga, tomate, jamón cocido",
+        precio: 7500
+    },
+    {
+        numero: 4,
+        tipo: "Hamburguesa de la casa",
+        Ingredientes: "2 medallones de carne 180gr, pan de papa, queso cheddar, panceta, lechuga, tomate, jamón cocido, huevo, salsa especial",
+        precio: 7300
+    }
+];
+console.log(hamburguesas)
 
-const Hamburguesas = ["hamburguesa clasica", "hamburguesa cheddar", "hamburguesa de campo",]
-let continuar=true
-while(continuar) {
-    let Hamburguesas = parseInt(prompt("Ingrese 1 para Hamburguesa clasica, 2 para Hamburguesa cheddar, 3 para Hamburguesa de campo, otro numero para salir"))
-    switch(Hamburguesas) {
-        case 1:
-            console.log("Hamburguesa clasica")
-            break
-        case 2: 
-            console.log("Hamburguesa cheddar")
-            break
-        case 3: 
-            console.log("Hamburguesa de campo")
-            break
-        default:
-            console.log("No tenemos ese plato")
-            break
+const bebidas = [
+    {
+        numero: 1,
+        tipo: "Coca cola",
+        volumen: "500cc",
+        precio: 1500
+    },
+    {
+        numero: 2,
+        tipo: "Fanta",
+        volumen: "500cc",
+        precio: 1500
+    },
+    {
+        numero: 3,
+        tipo: "Sprite",
+        volumen: "500cc",
+        precio: 1500
+    },
+    {
+        numero: 4,
+        tipo: "Cerveza Quilmes",
+        volumen: "500cc",
+        precio: 2000
     }
-    let Bebida = parseInt(prompt("Ingrese 1 para Coca Cola, 2 para Fanta, 3 para Sprite, otro numero para salir"))
-    switch(Bebida) {
-        case 1:
-            console.log("Coca Cola")
-            break
-        case 2: 
-            console.log("Fanta")
-            break
-        case 3: 
-            console.log("Sprite")
-            break
-        default:
-            console.log("sin stock")
-            break
-    }
+];
+console.log(bebidas)
 
-    let confirmacion = prompt("Desea agregar algo a su pedido? (si/no)")
-    if(confirmacion == "no"){
-        continuar=false
-       
-    }
+function mostrarOpcionesHamburguesas() {
+    console.log("Opciones de hamburguesas:");
+    hamburguesas.forEach(hamburguesa => {
+        console.log(hamburguesa.numero);
+    });
 }
 
-function sumar(Hamburguesa,bebida) {
-   
-    let resultado = Hamburguesa + bebida
-    console.log("Total de su compra:"+ resultado)
-    alert("Total de su compra:"+ resultado +"gracias por su compra")
+function mostrarOpcionesBebidas() {
+    console.log("Opciones de bebidas:");
+    bebidas.forEach(bebida => {
+        console.log(bebida.numero);
+    });
+}
+
+function obtenerPrecioHamburguesa(numero) {
+    for (let hamburguesa of hamburguesas) {
+        if (hamburguesa.numero === numero) {
+            return hamburguesa.precio;
+        }
+    }
+    alert("Selección inválida, por favor ingrese un número válido.");
+    return 0;
+}
+
+function obtenerPrecioBebida(numero) {
+    for (let bebida of bebidas) {
+        if (bebida.numero === numero) {
+            return bebida.precio;
+        }
+    }
+    alert("Selección inválida, por favor ingrese un número válido.");
+    return 0;
+}
+
+mostrarOpcionesHamburguesas();
+let numeroHamburguesa = parseInt(prompt("Elija su Hamburguesa: 1 Hamburguesa simple, 2 Hamburguesa cheddar, 3 Hamburguesa de campo, 4 Hamburguesa de la casa "));
+
+mostrarOpcionesBebidas();
+let numeroBebida = parseInt(prompt("Elija su Bebida: 1 Coca Cola, 2 Sprite, 3 Fanta, 4 Cerveza Quilmes "));
+
+let precioHamburguesa = obtenerPrecioHamburguesa(numeroHamburguesa);
+let precioBebida = obtenerPrecioBebida(numeroBebida);
+
+if (precioHamburguesa > 0 && precioBebida > 0) {
+    let resultado = precioHamburguesa + precioBebida;
+    alert("Total: " + resultado);
     
-      }
+    let pedido = {
+        cliente: nombre,
+        mesa: mesa,
+        hamburguesa: numeroHamburguesa,
+        bebida: numeroBebida,
+        total: resultado
+    };
 
-      sumar(5500,1500)
-
-       
-
-       const Hamburguesa = ["lechuga", "carne", "tomate", "pan", "queso"]
-       
-
-       
+    console.log("Pedido guardado:");
+    console.log(pedido);
+}
