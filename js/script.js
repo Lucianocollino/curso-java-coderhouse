@@ -1,117 +1,98 @@
-let nombre = prompt("Ingrese su nombre");
-let mesa = prompt("Ingrese número de mesa");
-
-const hamburguesas = [
-    {
-        numero: 1,
-        tipo: "Hamburguesa Simple",
-        Ingredientes: "1 medallón de carne 180gr, pan de papa, lechuga, tomate, queso",
-        precio: 6500
-    },
-    {
-        numero: 2,
-        tipo: "Hamburguesa Cheddar",
-        Ingredientes: "2 medallones de carne 180gr, pan de papa, queso cheddar, panceta, salsa especial",
-        precio: 6900
-    },
-    {
-        numero: 3,
-        tipo: "Hamburguesa de campo",
-        Ingredientes: "2 medallones de carne 180gr, pan de papa, queso provoleta, chimichurri, lechuga, tomate, jamón cocido",
-        precio: 7500
-    },
-    {
-        numero: 4,
-        tipo: "Hamburguesa de la casa",
-        Ingredientes: "2 medallones de carne 180gr, pan de papa, queso cheddar, panceta, lechuga, tomate, jamón cocido, huevo, salsa especial",
-        precio: 7300
+const articulos = [
+    { id: 1, nombre: "Bullpadel Vertex 04", precio: 600000 },
+    { id: 2, nombre: "Siux Electra st3 pro", precio: 550000 },
+    { id: 3, nombre: "Adidas Metalbone 3.3", precio: 700000 },
+    { id: 4, nombre: "Wilson Bela v2", precio: 650000 },
+    { id: 5, nombre: "Siux Diablo Revolution 3", precio: 500000 },
+    { id: 6, nombre: "Bullpadel hack 03 2024", precio: 550000 },
+    { id: 7, nombre: "Siux Fenix 4 pro", precio: 530000 },
+    { id: 8, nombre: "Siux trilogy pro 4", precio: 600000 },
+    { id: 9, nombre: "Varlion bourne MY", precio: 390000 }
+  ];
+  
+  let cartArticulos = JSON.parse(localStorage.getItem("cartArticulos")) || [];
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const articulosContainer = document.querySelector("#articulos-container");
+    const cartList = document.querySelector("#cart-list");
+    const totalPrecio = document.querySelector("#total-precio");
+  
+    if (articulosContainer) {
+      renderArticulos(articulos);
     }
-];
-console.log(hamburguesas)
-
-const bebidas = [
-    {
-        numero: 1,
-        tipo: "Coca cola",
-        volumen: "500cc",
-        precio: 1500
-    },
-    {
-        numero: 2,
-        tipo: "Fanta",
-        volumen: "500cc",
-        precio: 1500
-    },
-    {
-        numero: 3,
-        tipo: "Sprite",
-        volumen: "500cc",
-        precio: 1500
-    },
-    {
-        numero: 4,
-        tipo: "Cerveza Quilmes",
-        volumen: "500cc",
-        precio: 2000
+  
+    if (cartList && totalPrecio) {
+      updateCart();
     }
-];
-console.log(bebidas)
-
-function mostrarOpcionesHamburguesas() {
-    console.log("Opciones de hamburguesas:");
-    hamburguesas.forEach(hamburguesa => {
-        console.log(hamburguesa.numero);
-    });
-}
-
-function mostrarOpcionesBebidas() {
-    console.log("Opciones de bebidas:");
-    bebidas.forEach(bebida => {
-        console.log(bebida.numero);
-    });
-}
-
-function obtenerPrecioHamburguesa(numero) {
-    for (let hamburguesa of hamburguesas) {
-        if (hamburguesa.numero === numero) {
-            return hamburguesa.precio;
+  
+    function renderArticulos(articuloArray) {
+      if (articulosContainer) {
+        articulosContainer.innerHTML = ''; // Limpiar contenedor
+      }
+      articuloArray.forEach(articulo => {
+        const card = document.createElement("div");
+        card.className = "articulo-card";
+        card.innerHTML = `
+          <h3>${articulo.nombre}</h3>
+          <p>${articulo.precio.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
+          <button class="articuloAgregar" id="${articulo.id}">Agregar</button>
+        `;
+        if (articulosContainer) {
+          articulosContainer.appendChild(card);
         }
+      });
+      addToCartButton();
     }
-    alert("Selección inválida, por favor ingrese un número válido.");
-    return 0;
-}
-
-function obtenerPrecioBebida(numero) {
-    for (let bebida of bebidas) {
-        if (bebida.numero === numero) {
-            return bebida.precio;
+  
+    function addToCartButton() {
+      const addButton = document.querySelectorAll(".articuloAgregar");
+      addButton.forEach(button => {
+        button.onclick = (e) => {
+          const articuloId = e.currentTarget.id;
+          const selectedArticulo = articulos.find(articulo => articulo.id == articuloId);
+          const cartItem = cartArticulos.find(item => item.id == articuloId);
+          if (cartItem) {
+            cartItem.cantidad++;
+          } else {
+            cartArticulos.push({...selectedArticulo, cantidad: 1 });
+          }
+          updateCart();
+        };
+      });
+    }
+  
+    function updateCart() {
+      if (cartList) {
+        cartList.innerHTML = ''; // Limpiar lista del carrito
+      }
+      let total = 0;
+      for (let i = 0; i < cartArticulos.length; i++) {
+        const articulo = cartArticulos[i];
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+          ${articulo.nombre} - ${articulo.precio.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })} x ${articulo.cantidad}
+          <button class="eliminarArticulo" data-index="${i}">Eliminar</button>
+        `;
+        if (cartList) {
+          cartList.appendChild(listItem);
         }
+        total += articulo.precio * articulo.cantidad;
+      }
+      if (totalPrecio) {
+        totalPrecio.textContent = total.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
+      }
+      localStorage.setItem("cartArticulos", JSON.stringify(cartArticulos));
+      addRemoveFromCartButton();
     }
-    alert("Selección inválida, por favor ingrese un número válido.");
-    return 0;
-}
-
-mostrarOpcionesHamburguesas();
-let numeroHamburguesa = parseInt(prompt("Elija su Hamburguesa: 1 Hamburguesa simple, 2 Hamburguesa cheddar, 3 Hamburguesa de campo, 4 Hamburguesa de la casa "));
-
-mostrarOpcionesBebidas();
-let numeroBebida = parseInt(prompt("Elija su Bebida: 1 Coca Cola, 2 Sprite, 3 Fanta, 4 Cerveza Quilmes "));
-
-let precioHamburguesa = obtenerPrecioHamburguesa(numeroHamburguesa);
-let precioBebida = obtenerPrecioBebida(numeroBebida);
-
-if (precioHamburguesa > 0 && precioBebida > 0) {
-    let resultado = precioHamburguesa + precioBebida;
-    alert("Total: " + resultado);
-    
-    let pedido = {
-        cliente: nombre,
-        mesa: mesa,
-        hamburguesa: numeroHamburguesa,
-        bebida: numeroBebida,
-        total: resultado
-    };
-
-    console.log("Pedido guardado:");
-    console.log(pedido);
-}
+  
+    function addRemoveFromCartButton() {
+      const removeButton = document.querySelectorAll(".eliminarArticulo");
+      removeButton.forEach(button => {
+        button.onclick = (e) => {
+          const index = e.currentTarget.dataset.index;
+          cartArticulos.splice(index, 1);
+          updateCart();
+        };
+      });
+    }
+  });
