@@ -3,21 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACK PADEL SHOP - Tienda de Paletas</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
-    <title>BLACK PADEL SHOP</title>
-  
-    <script defer src="js/script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+   
 </head>
-<body>
-   <header class="header-index">
-    <h1>Black Padel Shop</h1>
-    <h2>Venta de paletas de pádel</h2>
 
-   </header> 
-    <div id="articulos-container"></div>
-    
-    <button onclick="location.href='carrito.html'">Ir al Carrito</button>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- Enlace al carrito -->
+            <a class="navbar-brand" >
+                <img src="img/logo.jpg" alt="Carrito de compra" width="100" height="100">
+            </a>
+        </div>
+        <a class="navbar-brand" href="#carrito">
+            <img src="img/icons8-shopping-cart.gif" alt="Carrito de compra" width="30" height="28">
+        </a>
+    </div>
+
+    </nav>
+
+    <div class="index-header">
+        <h1 class="h1-header">
+            BLACK PADEL SHOP
+           
+        </h1>
+        <h2 class="h2-header"> Tienda de paletas</h2>
+        <h3 class="h3-header">Los mejores precios del país - Envíos Gratis</h3>
+    </div>
+</header>
+
+ <section class="">
+    <div class="container">
+    <!-- Contenedor de artículos -->
+    <div id="articulos-container" class="row">
+        <!-- Los artículos se renderizarán aquí -->
+    </div>
+
+    <!-- Contenedor del carrito -->
+    <div id="carrito" class="carrito">
+        <h2>Carrito</h2>
+        <ul id="cart-list" class="list-group"></ul>
+        <p>Total: <span id="total-precio">0</span></p>
+        <button id="vaciar-carrito" class="btn btn-danger">Vaciar Carrito</button>
+        <button id="finalizar-compra" class="btn btn-primary">Finalizar Compra</button>
+    </div>
+
+    <!-- Modal para finalizar compra -->
+    <div class="modal fade" id="compraModal" tabindex="-1" role="dialog" aria-labelledby="compraModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="compraModalLabel">Formulario de Compra</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-compra">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Confirmar Compra</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<script src="js/articulos.js" defer></script>
+<script src="js/carrito.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
-
-
